@@ -1,0 +1,315 @@
+FUNCTION_BLOCK FuzzyMsPacMan	// Block definition (there may be more than one block per file)
+
+VAR_INPUT				// Define input variables
+	BLINKY_RA_distance : REAL;
+	PINKY_RA_distance : REAL;
+	INKY_RA_distance : REAL;
+	SUE_RA_distance : REAL;
+	
+	BLINKY_GTE_distance : REAL;
+	PINKY_GTE_distance : REAL;
+	INKY_GTE_distance : REAL;
+	SUE_GTE_distance : REAL;
+	
+	reliable_BLINKY : REAL;
+	reliable_PINKY : REAL;
+	reliable_INKY : REAL;
+	reliable_SUE : REAL;
+END_VAR
+
+
+//-------------------------------------------------------------------------------
+
+
+VAR_OUTPUT				// Define output variable
+	runAwayBLINKY : REAL;
+	runAwayPINKY : REAL;
+	runAwayINKY : REAL;
+	runAwaySUE : REAL;
+	
+	goToEdibleBLINKY : REAL;
+	goToEdiblePINKY : REAL;
+	goToEdibleINKY : REAL;
+	goToEdibleSUE : REAL;
+END_VAR
+
+
+//-------------------------------------------------------------------------------
+
+
+	// run away
+
+FUZZIFY BLINKY_RA_distance			// Fuzzify input variable 'service': {'poor', 'good' , 'excellent'}
+	TERM near := (0, 1) (60, 0) ; 
+	TERM medium := gauss 75 25;
+	TERM far := (90, 0) (150, 1) (200, 1);
+END_FUZZIFY
+FUZZIFY PINKY_RA_distance			// Fuzzify input variable 'service': {'poor', 'good' , 'excellent'}
+	TERM near := (0, 1) (60, 0) ; 
+	TERM medium := gauss 75 25;
+	TERM far := (90, 0) (150, 1) (200, 1);
+END_FUZZIFY
+FUZZIFY INKY_RA_distance			// Fuzzify input variable 'service': {'poor', 'good' , 'excellent'}
+	TERM near := (0, 1) (60, 0) ; 
+	TERM medium := gauss 75 25;
+	TERM far := (90, 0) (150, 1) (200, 1);
+END_FUZZIFY
+FUZZIFY SUE_RA_distance			// Fuzzify input variable 'service': {'poor', 'good' , 'excellent'}
+	TERM near := (0, 1) (60, 0) ; 
+	TERM medium := gauss 75 25;
+	TERM far := (90, 0) (150, 1) (200, 1);
+END_FUZZIFY
+
+
+	// go to edible
+
+FUZZIFY BLINKY_GTE_distance			// Fuzzify input variable 'service': {'poor', 'good' , 'excellent'}
+	TERM near := (0, 1) (60, 0) ; 
+	TERM medium := gauss 75 25;
+	TERM far := (90, 0) (150, 1) (200, 1);
+END_FUZZIFY
+FUZZIFY PINKY_GTE_distance			// Fuzzify input variable 'service': {'poor', 'good' , 'excellent'}
+	TERM near := (0, 1) (60, 0) ; 
+	TERM medium := gauss 75 25;
+	TERM far := (90, 0) (150, 1) (200, 1);
+END_FUZZIFY
+FUZZIFY INKY_GTE_distance			// Fuzzify input variable 'service': {'poor', 'good' , 'excellent'}
+	TERM near := (0, 1) (60, 0) ; 
+	TERM medium := gauss 75 25;
+	TERM far := (90, 0) (150, 1) (200, 1);
+END_FUZZIFY
+FUZZIFY SUE_GTE_distance			// Fuzzify input variable 'service': {'poor', 'good' , 'excellent'}
+	TERM near := (0, 1) (60, 0) ; 
+	TERM medium := gauss 75 25;
+	TERM far := (90, 0) (150, 1) (200, 1);
+END_FUZZIFY
+
+	
+	// reliable
+
+FUZZIFY reliable_BLINKY
+	TERM high := (0, 1) (2, 0);
+	TERM medium := gauss 1 1;
+	TERM low := (0, 0) (2, 1);	
+END_FUZZIFY
+
+FUZZIFY reliable_PINKY
+	TERM high := (0, 1) (2, 0);
+	TERM medium := gauss 1 1;
+	TERM low := (0, 0) (2, 1);
+END_FUZZIFY
+
+FUZZIFY reliable_INKY
+	TERM high := (0, 1) (2, 0);
+	TERM medium := gauss 1 1;
+	TERM low := (0, 0) (2, 1);
+END_FUZZIFY
+
+FUZZIFY reliable_SUE
+	TERM high := (0, 1) (2, 0);
+	TERM medium := gauss 1 1;
+	TERM low := (0, 0) (2, 1);
+END_FUZZIFY
+
+
+//-------------------------------------------------------------------------------
+
+	// Run Away
+
+DEFUZZIFY runAwayBLINKY			// Defzzzify output variable 'tip' : {'cheap', 'average', 'generous' }
+	TERM calm := (0,1) (5,1) (15,0);
+	TERM nervious := gauss 15 5;
+	TERM emergency := (15,0) (25,1) (30,1);
+	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)	
+END_DEFUZZIFY
+
+DEFUZZIFY runAwayPINKY			// Defzzzify output variable 'tip' : {'cheap', 'average', 'generous' }
+	TERM calm := (0,1) (5,1) (15,0);
+	TERM nervious := gauss 15 5;
+	TERM emergency := (15,0) (25,1) (30,1);
+	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)	
+END_DEFUZZIFY
+
+DEFUZZIFY runAwayINKY			// Defzzzify output variable 'tip' : {'cheap', 'average', 'generous' }
+	TERM calm := (0,1) (5,1) (15,0);
+	TERM nervious := gauss 15 5;
+	TERM emergency := (15,0) (25,1) (30,1);
+	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)	
+END_DEFUZZIFY
+
+DEFUZZIFY runAwaySUE			// Defzzzify output variable 'tip' : {'cheap', 'average', 'generous' }
+	TERM calm := (0,1) (5,1) (15,0);
+	TERM nervious := gauss 15 5;
+	TERM emergency := (15,0) (25,1) (30,1);
+	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)	
+END_DEFUZZIFY
+
+
+	// Go to Edible
+
+
+DEFUZZIFY goToEdibleBLINKY			// Defzzzify output variable 'tip' : {'cheap', 'average', 'generous' }
+	TERM calm := (0,1) (5,1) (15,0);
+	TERM nervious := gauss 15 5;
+	TERM emergency := (15,0) (25,1) (30,1);
+	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)	
+END_DEFUZZIFY
+
+DEFUZZIFY goToEdiblePINKY			// Defzzzify output variable 'tip' : {'cheap', 'average', 'generous' }
+	TERM calm := (0,1) (5,1) (15,0);
+	TERM nervious := gauss 15 5;
+	TERM emergency := (15,0) (25,1) (30,1);
+	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)	
+END_DEFUZZIFY
+
+DEFUZZIFY goToEdibleINKY			// Defzzzify output variable 'tip' : {'cheap', 'average', 'generous' }
+	TERM calm := (0,1) (5,1) (15,0);
+	TERM nervious := gauss 15 5;
+	TERM emergency := (15,0) (25,1) (30,1);
+	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)	
+END_DEFUZZIFY
+
+DEFUZZIFY goToEdibleSUE			// Defzzzify output variable 'tip' : {'cheap', 'average', 'generous' }
+	TERM calm := (0,1) (5,1) (15,0);
+	TERM nervious := gauss 15 5;
+	TERM emergency := (15,0) (25,1) (30,1);
+	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)	
+END_DEFUZZIFY
+
+
+
+//-------------------------------------------------------------------------------
+
+
+RULEBLOCK MsPacManRules
+	AND : MIN;			// Use 'min' for 'and' (also implicit use 'max' for 'or' to fulfill DeMorgan's Law)
+	ACT : MIN;			// Use 'min' activation method
+	ACCU : MAX;			// Use 'MAX' accumulation method (Other options PROBOR and SUM)
+	
+	//_____________________________________________________________________________________________________________
+	
+	// run away BLINKY
+	
+	RULE 1 : IF ((BLINKY_RA_distance IS near) AND (reliable_BLINKY IS high)) THEN runAwayBLINKY IS emergency;
+	RULE 2 : IF ((BLINKY_RA_distance IS near) AND (reliable_BLINKY IS medium)) THEN runAwayBLINKY IS emergency;
+	RULE 3 : IF ((BLINKY_RA_distance IS near) AND (reliable_BLINKY IS low)) THEN runAwayBLINKY IS nervious;
+	
+	RULE 4 : IF ((BLINKY_RA_distance IS medium) AND (reliable_BLINKY IS high)) THEN runAwayBLINKY IS emergency;
+	RULE 5 : IF ((BLINKY_RA_distance IS medium) AND (reliable_BLINKY IS medium)) THEN runAwayBLINKY IS nervious;
+	RULE 6 : IF ((BLINKY_RA_distance IS medium) AND (reliable_BLINKY IS low)) THEN runAwayBLINKY IS calm;
+	
+	RULE 7 : IF ((BLINKY_RA_distance IS far) AND (reliable_BLINKY IS high)) THEN runAwayBLINKY IS calm;
+	RULE 8 : IF ((BLINKY_RA_distance IS far) AND (reliable_BLINKY IS medium)) THEN runAwayBLINKY IS calm;
+	RULE 9 : IF ((BLINKY_RA_distance IS far) AND (reliable_BLINKY IS low)) THEN runAwayBLINKY IS calm;
+	
+	// run away PINKY
+	
+	RULE 10 : IF ((PINKY_RA_distance IS near) AND (reliable_PINKY IS high)) THEN runAwayPINKY IS emergency;
+	RULE 11 : IF ((PINKY_RA_distance IS near) AND (reliable_PINKY IS medium)) THEN runAwayPINKY IS emergency;
+	RULE 12 : IF ((PINKY_RA_distance IS near) AND (reliable_PINKY IS low)) THEN runAwayPINKY IS nervious;
+	
+	RULE 13 : IF ((PINKY_RA_distance IS medium) AND (reliable_PINKY IS high)) THEN runAwayPINKY IS emergency;
+	RULE 14 : IF ((PINKY_RA_distance IS medium) AND (reliable_PINKY IS medium)) THEN runAwayPINKY IS nervious;
+	RULE 15 : IF ((PINKY_RA_distance IS medium) AND (reliable_PINKY IS low)) THEN runAwayPINKY IS calm;
+	
+	RULE 16 : IF ((PINKY_RA_distance IS far) AND (reliable_PINKY IS high)) THEN runAwayPINKY IS calm;
+	RULE 17 : IF ((PINKY_RA_distance IS far) AND (reliable_PINKY IS medium)) THEN runAwayPINKY IS calm;
+	RULE 18 : IF ((PINKY_RA_distance IS far) AND (reliable_PINKY IS low)) THEN runAwayPINKY IS calm;
+	
+	// run away INKY
+	
+	RULE 19 : IF ((INKY_RA_distance IS near) AND (reliable_INKY IS high)) THEN runAwayINKY IS emergency;
+	RULE 20 : IF ((INKY_RA_distance IS near) AND (reliable_INKY IS medium)) THEN runAwayINKY IS emergency;
+	RULE 21 : IF ((INKY_RA_distance IS near) AND (reliable_INKY IS low)) THEN runAwayINKY IS nervious;
+	
+	RULE 22 : IF ((INKY_RA_distance IS medium) AND (reliable_INKY IS high)) THEN runAwayINKY IS emergency;
+	RULE 23 : IF ((INKY_RA_distance IS medium) AND (reliable_INKY IS medium)) THEN runAwayINKY IS nervious;
+	RULE 24 : IF ((INKY_RA_distance IS medium) AND (reliable_INKY IS low)) THEN runAwayINKY IS calm;
+	
+	RULE 25 : IF ((INKY_RA_distance IS far) AND (reliable_INKY IS high)) THEN runAwayINKY IS calm;
+	RULE 26 : IF ((INKY_RA_distance IS far) AND (reliable_INKY IS medium)) THEN runAwayINKY IS calm;
+	RULE 27 : IF ((INKY_RA_distance IS far) AND (reliable_INKY IS low)) THEN runAwayINKY IS calm;	
+	
+	// run away SUE
+	
+	RULE 28 : IF ((SUE_RA_distance IS near) AND (reliable_SUE IS high)) THEN runAwaySUE IS emergency;
+	RULE 29 : IF ((SUE_RA_distance IS near) AND (reliable_SUE IS medium)) THEN runAwaySUE IS emergency;
+	RULE 30 : IF ((SUE_RA_distance IS near) AND (reliable_SUE IS low)) THEN runAwaySUE IS nervious;
+	
+	RULE 31 : IF ((SUE_RA_distance IS medium) AND (reliable_SUE IS high)) THEN runAwaySUE IS emergency;
+	RULE 32 : IF ((SUE_RA_distance IS medium) AND (reliable_SUE IS medium)) THEN runAwaySUE IS nervious;
+	RULE 33 : IF ((SUE_RA_distance IS medium) AND (reliable_SUE IS low)) THEN runAwaySUE IS calm;
+	
+	RULE 34 : IF ((SUE_RA_distance IS far) AND (reliable_SUE IS high)) THEN runAwaySUE IS calm;
+	RULE 35 : IF ((SUE_RA_distance IS far) AND (reliable_SUE IS medium)) THEN runAwaySUE IS calm;
+	RULE 36 : IF ((SUE_RA_distance IS far) AND (reliable_SUE IS low)) THEN runAwaySUE IS calm;
+	
+	//_____________________________________________________________________________________________________________
+	
+	// go to edible BLINKY
+	
+	RULE 37 : IF ((BLINKY_GTE_distance IS near) AND (reliable_BLINKY IS high)) THEN goToEdibleBLINKY IS emergency;
+	RULE 38 : IF ((BLINKY_GTE_distance IS near) AND (reliable_BLINKY IS medium)) THEN goToEdibleBLINKY IS emergency;
+	RULE 39 : IF ((BLINKY_GTE_distance IS near) AND (reliable_BLINKY IS low)) THEN goToEdibleBLINKY IS nervious;
+	
+	RULE 40 : IF ((BLINKY_GTE_distance IS medium) AND (reliable_BLINKY IS high)) THEN goToEdibleBLINKY IS emergency;
+	RULE 41 : IF ((BLINKY_GTE_distance IS medium) AND (reliable_BLINKY IS medium)) THEN goToEdibleBLINKY IS nervious;
+	RULE 42 : IF ((BLINKY_GTE_distance IS medium) AND (reliable_BLINKY IS low)) THEN goToEdibleBLINKY IS calm;
+	
+	RULE 43 : IF ((BLINKY_GTE_distance IS far) AND (reliable_BLINKY IS high)) THEN goToEdibleBLINKY IS calm;
+	RULE 44 : IF ((BLINKY_GTE_distance IS far) AND (reliable_BLINKY IS medium)) THEN goToEdibleBLINKY IS calm;
+	RULE 45 : IF ((BLINKY_GTE_distance IS far) AND (reliable_BLINKY IS low)) THEN goToEdibleBLINKY IS calm;
+	
+	// go to edible PINKY
+	
+	RULE 46 : IF ((PINKY_GTE_distance IS near) AND (reliable_PINKY IS high)) THEN goToEdiblePINKY IS emergency;
+	RULE 47 : IF ((PINKY_GTE_distance IS near) AND (reliable_PINKY IS medium)) THEN goToEdiblePINKY IS emergency;
+	RULE 48 : IF ((PINKY_GTE_distance IS near) AND (reliable_PINKY IS low)) THEN goToEdiblePINKY IS nervious;
+	
+	RULE 49 : IF ((PINKY_GTE_distance IS medium) AND (reliable_PINKY IS high)) THEN goToEdiblePINKY IS emergency;
+	RULE 50 : IF ((PINKY_GTE_distance IS medium) AND (reliable_PINKY IS medium)) THEN goToEdiblePINKY IS nervious;
+	RULE 51 : IF ((PINKY_GTE_distance IS medium) AND (reliable_PINKY IS low)) THEN goToEdiblePINKY IS calm;
+	
+	RULE 52 : IF ((PINKY_GTE_distance IS far) AND (reliable_PINKY IS high)) THEN goToEdiblePINKY IS calm;
+	RULE 53 : IF ((PINKY_GTE_distance IS far) AND (reliable_PINKY IS medium)) THEN goToEdiblePINKY IS calm;
+	RULE 54 : IF ((PINKY_GTE_distance IS far) AND (reliable_PINKY IS low)) THEN goToEdiblePINKY IS calm;
+	
+	// go to edible INKY
+	
+	RULE 55 : IF ((INKY_GTE_distance IS near) AND (reliable_INKY IS high)) THEN goToEdibleINKY IS emergency;
+	RULE 56 : IF ((INKY_GTE_distance IS near) AND (reliable_INKY IS medium)) THEN goToEdibleINKY IS emergency;
+	RULE 57 : IF ((INKY_GTE_distance IS near) AND (reliable_INKY IS low)) THEN goToEdibleINKY IS nervious;
+	
+	RULE 58 : IF ((INKY_GTE_distance IS medium) AND (reliable_INKY IS high)) THEN goToEdibleINKY IS emergency;
+	RULE 59 : IF ((INKY_GTE_distance IS medium) AND (reliable_INKY IS medium)) THEN goToEdibleINKY IS nervious;
+	RULE 60 : IF ((INKY_GTE_distance IS medium) AND (reliable_INKY IS low)) THEN goToEdibleINKY IS calm;
+	
+	RULE 61 : IF ((INKY_GTE_distance IS far) AND (reliable_INKY IS high)) THEN goToEdibleINKY IS calm;
+	RULE 62 : IF ((INKY_GTE_distance IS far) AND (reliable_INKY IS medium)) THEN goToEdibleINKY IS calm;
+	RULE 63 : IF ((INKY_GTE_distance IS far) AND (reliable_INKY IS low)) THEN goToEdibleINKY IS calm;	
+	
+	// go to edible SUE
+	
+	RULE 64 : IF ((SUE_GTE_distance IS near) AND (reliable_SUE IS high)) THEN goToEdibleSUE IS emergency;
+	RULE 65 : IF ((SUE_GTE_distance IS near) AND (reliable_SUE IS medium)) THEN goToEdibleSUE IS emergency;
+	RULE 66 : IF ((SUE_GTE_distance IS near) AND (reliable_SUE IS low)) THEN goToEdibleSUE IS nervious;
+	
+	RULE 67 : IF ((SUE_GTE_distance IS medium) AND (reliable_SUE IS high)) THEN goToEdibleSUE IS emergency;
+	RULE 68 : IF ((SUE_GTE_distance IS medium) AND (reliable_SUE IS medium)) THEN goToEdibleSUE IS nervious;
+	RULE 69 : IF ((SUE_GTE_distance IS medium) AND (reliable_SUE IS low)) THEN goToEdibleSUE IS calm;
+	
+	RULE 70 : IF ((SUE_GTE_distance IS far) AND (reliable_SUE IS high)) THEN goToEdibleSUE IS calm;
+	RULE 71 : IF ((SUE_GTE_distance IS far) AND (reliable_SUE IS medium)) THEN goToEdibleSUE IS calm;
+	RULE 72 : IF ((SUE_GTE_distance IS far) AND (reliable_SUE IS low)) THEN goToEdibleSUE IS calm;
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK
+

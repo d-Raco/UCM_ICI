@@ -1,0 +1,63 @@
+FUNCTION_BLOCK FuzzyMsPacMan	// Block definition (there may be more than one block per file)
+
+VAR_INPUT				// Define input variables
+	BLINKYdistance : REAL;
+	PINKYdistance : REAL;
+	INKYdistance : REAL;
+	SUEdistance : REAL;
+END_VAR
+
+VAR_OUTPUT				// Define output variable
+	runAway : REAL;
+END_VAR
+
+FUZZIFY BLINKYdistance			// Fuzzify input variable 'service': {'poor', 'good' , 'excellent'}
+	TERM near := (0, 1) (60, 0) ; 
+	TERM medium := gauss 75 25;
+	TERM far := (90, 0) (150, 1) (200, 1);
+END_FUZZIFY
+FUZZIFY PINKYdistance			// Fuzzify input variable 'service': {'poor', 'good' , 'excellent'}
+	TERM near := (0, 1) (60, 0) ; 
+	TERM medium := gauss 75 25;
+	TERM far := (90, 0) (150, 1) (200, 1);
+END_FUZZIFY
+FUZZIFY INKYdistance			// Fuzzify input variable 'service': {'poor', 'good' , 'excellent'}
+	TERM near := (0, 1) (60, 0) ; 
+	TERM medium := gauss 75 25;
+	TERM far := (90, 0) (150, 1) (200, 1);
+END_FUZZIFY
+FUZZIFY SUEdistance			// Fuzzify input variable 'service': {'poor', 'good' , 'excellent'}
+	TERM near := (0, 1) (60, 0) ; 
+	TERM medium := gauss 75 25;
+	TERM far := (90, 0) (150, 1) (200, 1);
+END_FUZZIFY
+
+DEFUZZIFY runAway			// Defzzzify output variable 'tip' : {'cheap', 'average', 'generous' }
+	TERM calm := (0,1) (5,1) (15,0);
+	TERM nervious := gauss 15 5;
+	TERM emergency := (15,0) (25,1) (30,1);
+	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
+END_DEFUZZIFY
+
+RULEBLOCK MsPacManRules
+	AND : MIN;			// Use 'min' for 'and' (also implicit use 'max' for 'or' to fulfill DeMorgan's Law)
+	ACT : MIN;			// Use 'min' activation method
+	ACCU : MAX;			// Use 'MAX' accumulation method (Other options PROBOR and SUM)
+
+	RULE 1 : IF BLINKYdistance IS near THEN runAway IS emergency;
+	RULE 2 : IF PINKYdistance IS near THEN runAway IS emergency;
+	RULE 3 : IF INKYdistance IS near THEN runAway IS emergency;
+	RULE 4 : IF SUEdistance IS near THEN runAway IS emergency;
+	RULE 5 : IF BLINKYdistance IS medium THEN runAway IS nervious;
+	RULE 6 : IF PINKYdistance IS medium THEN runAway IS nervious;
+	RULE 7 : IF INKYdistance IS medium THEN runAway IS nervious;
+	RULE 8 : IF SUEdistance IS medium THEN runAway IS nervious;
+	RULE 9 : IF BLINKYdistance IS far THEN runAway IS calm;
+	RULE 10 : IF PINKYdistance IS far THEN runAway IS calm;
+	RULE 11 : IF INKYdistance IS far THEN runAway IS calm;
+	RULE 12 : IF SUEdistance IS far THEN runAway IS calm;
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK
+
